@@ -90,21 +90,16 @@ def find_min(weather_data):
     Returns:
         The minimum value and it's position in the list. (In case of multiple matches, return the index of the *last* example in the list.)
     """
-    min_number = weather_data[0] #Assuming the first number is the smallest, by logic
-    for number in weather_data: #Loop to scan each number in the list
+    min_number = weather_data[0] #Creating the var min_number to assign the result to, starting with the first number in the list
+    min_index = 0 #variable for counting the index of the min number as they are being checked
+    for index, number in enumerate(weather_data): #Loop to scan each number in the list while also counting index position
         if number < min_number:  #Checking if each number next on the list is smaller than the previous
-            min_number = number 
-        else:
-            return len(number in weather_data)
-    return min_number
-
-
-# list ** re-think
-# 
-# for each number in min column, compare to another number to see if smaller than the next?
-# Also return index of position in the list
-# ELSE condition to return index of last number on list
-# ***Yeah, logic not greating on this one.  Will google it
+            min_number = number  #Updates the minimum number
+            min_index = index  #Updates the index number
+        if number == min_number:  #If number is equal, will instead update to the below
+            min_index = index  #Updates the index number 
+    return float(min_number), min_index  #Returns the minimum number while also converting to float and the index number
+#HELP I am getting an error, weather_data[0]- IndexError: list index out of range
 
 
 def find_max(weather_data):
@@ -115,8 +110,16 @@ def find_max(weather_data):
     Returns:
         The maximum value and it's position in the list. (In case of multiple matches, return the index of the *last* example in the list.)
     """
-    pass
-# Use the same function as above but opposite order, max over min lol
+    max_number = weather_data[0] #Creating the var max_number to assign the result to, starting with the first number in the list
+    max_index = 0 #variable for counting the index of the max number as they are being checked
+    for index, number in enumerate(weather_data): #Loop to scan each number in the list while also counting index position
+        if number > max_number:  #Checking if each number next on the list is smaller than the previous
+            max_number = number  #Updates the maximum number
+            max_index = index  #Updates the index number
+        if number == max_number:  #If number is equal, will instead update to the below
+            max_index = index  #Updates the index number 
+    return float(max_number), max_index  #Returns the maximum number while also converting to float and the index number
+# This is literally the same function as above, but I changed min to max
 
 
 def generate_summary(weather_data):
