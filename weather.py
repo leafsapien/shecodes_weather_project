@@ -76,29 +76,41 @@ def load_data_from_csv(csv_file):
         csv_reader = csv.reader(csv_file) # Making sure csv is in reading mode only, assigns variable to accessing the csv file using reader
         list_of_lists = [] #Create empty list to add each line list to during loop (Because it is a list of lists)
         for line in csv_reader: #For loop scanning each line in list
-            if line != "": #Skips line if blank
-                list = [] #Creates empty list for the line, reruns for each line
-                list.append(line) #Appends each line created to the blank list created within the loop
+            if line != []: #Skips line if blank
+                list_of_lists.append(line) #Appends each line created to the blank list created within the loop
+    # return list_of_lists
+    # print(list_of_lists)
+    list_of_lists.pop(0) #pop removes the the item in the list
+    # print(list_of_lists)
+    for line in list_of_lists:
+        line[1] = int(line[1])
+        line[2] = int(line[2])
     return list_of_lists
 # I can't believe it, but I got this without any outside assistance (excluding referring to my notes and google for some syntax of course).  GO ME!  WOOT!
+# print(load_data_from_csv("tests/data/example_two.csv"))
+
 
 def find_min(weather_data):
     """Calculates the minimum value in a list of numbers.
-
     Args:
         weather_data: A list of numbers.
     Returns:
         The minimum value and it's position in the list. (In case of multiple matches, return the index of the *last* example in the list.)
     """
-    min_number = weather_data[0] #Creating the var min_number to assign the result to, starting with the first number in the list
+    min_number = float(999) #Assigns maximum float value to min_number #Could instead convert string to float('inf')
     min_index = 0 #variable for counting the index of the min number as they are being checked
-    for index, number in enumerate(weather_data): #Loop to scan each number in the list while also counting index position
-        if number < min_number:  #Checking if each number next on the list is smaller than the previous
-            min_number = number  #Updates the minimum number
-            min_index = index  #Updates the index number
-        if number == min_number:  #If number is equal, will instead update to the below
-            min_index = index  #Updates the index number 
-    return float(min_number), min_index  #Returns the minimum number while also converting to float and the index number
+    if weather_data:  #ensures the list is not blank
+        for index, number in enumerate(weather_data): #Loop to scan each number in the list while also counting index position
+            if number: #Checks if number inside the list is not blank
+                if float(number) < float(min_number):  #Checking if each number next on the list is smaller than the previous
+                    min_number = float(number)  #Updates the minimum number
+                    min_index = int(index)  #Updates the index number
+                if float(number) == float(min_number):  #If number is equal, will instead update to the below
+                    min_index = int(index)  #Updates the index number 
+    if not weather_data: #If list is empty #Could add this at the top, as in if not weather data, then if everything else would proceed
+        return ()  #Returns empty tuple
+    return (min_number, min_index)  #Returns the minimum number while also converting to float and the index number
+
 #HELP I am getting an error, weather_data[0]- IndexError: list index out of range
 
 
@@ -110,15 +122,20 @@ def find_max(weather_data):
     Returns:
         The maximum value and it's position in the list. (In case of multiple matches, return the index of the *last* example in the list.)
     """
-    max_number = weather_data[0] #Creating the var max_number to assign the result to, starting with the first number in the list
+    max_number = float(-999) #Assigns float value to max_number
     max_index = 0 #variable for counting the index of the max number as they are being checked
-    for index, number in enumerate(weather_data): #Loop to scan each number in the list while also counting index position
-        if number > max_number:  #Checking if each number next on the list is smaller than the previous
-            max_number = number  #Updates the maximum number
-            max_index = index  #Updates the index number
-        if number == max_number:  #If number is equal, will instead update to the below
-            max_index = index  #Updates the index number 
-    return float(max_number), max_index  #Returns the maximum number while also converting to float and the index number
+    if weather_data:  #ensures the list is not blank
+        for index, number in enumerate(weather_data): #Loop to scan each number in the list while also counting index position
+            if number: #Checks if number inside the list is not blank
+                if float(number) > float(max_number):  #Checking if each number next on the list is larger than the previous
+                    max_number = float(number)  #Updates the maximum number
+                    max_index = int(index)  #Updates the index number
+                if float(number) == float(max_number):  #If number is equal, will instead update to the below
+                    max_index = int(index)  #Updates the index number 
+    if not weather_data: #If list is empty #Could add this at the top, as in if not weather data, then if everything else would proceed
+        return ()  #Returns empty tuple
+    return (max_number, max_index)  #Returns the minimum number while also converting to float and the index number
+
 # This is literally the same function as above, but I changed min to max
 
 
