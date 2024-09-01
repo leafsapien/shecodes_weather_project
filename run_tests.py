@@ -17,5 +17,5 @@ runner.run(unittest.TestSuite((unittest.TestLoader().loadTestsFromTestCase(Calcu
 runner.run(unittest.TestSuite((unittest.TestLoader().loadTestsFromTestCase(LoadCSVTests)))) #5
 runner.run(unittest.TestSuite((unittest.TestLoader().loadTestsFromTestCase(FindMinTests)))) #6
 runner.run(unittest.TestSuite((unittest.TestLoader().loadTestsFromTestCase(FindMaxTests)))) #7
-# runner.run(unittest.TestSuite((unittest.TestLoader().loadTestsFromTestCase(GenerateSummaryTests)))) #8
-# runner.run(unittest.TestSuite((unittest.TestLoader().loadTestsFromTestCase(GenerateDailySummaryTests)))) #9
+runner.run(unittest.TestSuite((unittest.TestLoader().loadTestsFromTestCase(GenerateSummaryTests)))) #8
+runner.run(unittest.TestSuite((unittest.TestLoader().loadTestsFromTestCase(GenerateDailySummaryTests)))) #9

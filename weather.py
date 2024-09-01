@@ -110,8 +110,7 @@ def find_min(weather_data):
     if not weather_data: #If list is empty #Could add this at the top, as in if not weather data, then if everything else would proceed
         return ()  #Returns empty tuple
     return (min_number, min_index)  #Returns the minimum number while also converting to float and the index number
-
-#HELP I am getting an error, weather_data[0]- IndexError: list index out of range
+# Thank you for your help Ollie!  I got stuck on an index out of range error.
 
 
 def find_max(weather_data):
@@ -140,38 +139,52 @@ def find_max(weather_data):
 
 def generate_summary(weather_data):
     """Outputs a summary for the given weather data.
-
     Args:
         weather_data: A list of lists, where each sublist represents a day of weather data.
     Returns:
         A string containing the summary information.
     """
-    min_list = []
+    print(weather_data)
+    print(weather_data[0])
+    min_list = []  #Creates the empty lists to be used later
     max_list = []
     if not weather_data:  #Skips empty lines if empty
         pass  #Skips during loop
     for line in weather_data:  #For line in list
-        #Call to column location, for min 1 max 2
-        min_list.append = weather_data[1]  #Intention is to add line of column to min list
-        max_list.append = weather_data[2]  #Intention is to add line of column to min list
-    min_temp = format_temperature(convert_f_to_c(find_min(min_list)))
-    max_temp = format_temperature(convert_f_to_c(find_max(max_list)))
-    # How do I get the date of the temp???  Should I enumerate to count index then use the date of the index??
-    min_temp_date = convert_date()#Index number of min temp, run through date function
-    max_temp_date = convert_date() #Same as above, but max temp
+        if line:  #Skips any blank lines
+            min_list.append (line[1])  #Intention is to add line of column to min list
+            max_list.append (line[2])  #Intention is to add line of column to min list
+    min_temp = format_temperature(convert_f_to_c(find_min(min_list)[0]))  #Calling the function to find min inside min list, while also converting to celsius and temp format
+    max_temp = format_temperature(convert_f_to_c(find_max(max_list)[0]))  #Calling the function to find max inside max list, while also converting to celsius and temp format
+    date_count = int(len(weather_data))  #Counts lines in provided list
+    min_temp_date, min_temp_index = find_min(min_list) #Index number of min temp, run through date function
+    min_temp_date = weather_data[min_temp_index][0] #Line 1 of obtaining the date - ISO String format
+    min_temp_date = convert_date(min_temp_date)  #Line 2 - converting iso string in to readable format
+    max_temp_date, max_temp_index = find_max(max_list) #Index number of max temp, run through date function
+    max_temp_date = weather_data[max_temp_index][0] #Line 1 of obtaining the date - ISO String format
+    max_temp_date = convert_date(max_temp_date)  #Line 2 - converting iso string in to readable format
     mean_min = format_temperature(convert_f_to_c(calculate_mean(min_list))) #Calculates mean of min list and converts to usable C temp format
     mean_max = format_temperature(convert_f_to_c(calculate_mean(max_list)))  #As above, but max
         
     return (
-        f"**Day=Index len count** Day Overview\n"  # Best way to pull all the strings together not in one massive line
-        f"The lowest temperature will be {min_temp}, "  # 
-        f"and will occur on {min_temp_date}.\n"  # 
-        f"The highest temperature will be {max_temp}, "  # 
-        f"and will occur on {max_temp_date}.\n"  # 
-        f"The average low this week is {mean_min}.\n"  # 
-        f"The average high this week is {mean_max}.\n"  # 
+        f"{date_count} Day Overview\n"  # Best way to pull all the strings together not in one massive line
+        f"  The lowest temperature will be {min_temp}, "  
+        f"and will occur on {min_temp_date}.\n"  
+        f"  The highest temperature will be {max_temp}, "  
+        f"and will occur on {max_temp_date}.\n"  
+        f"  The average low this week is {mean_min}.\n"  
+        f"  The average high this week is {mean_max}.\n"  
     )
-            
+generate_summary([
+            ["2020-06-19T07:00:00+08:00", -47, -46],
+            ["2020-06-20T07:00:00+08:00", -51, 67],
+            ["2020-06-21T07:00:00+08:00", 58, 72],
+            ["2020-06-22T07:00:00+08:00", 59, 71],
+            ["2020-06-23T07:00:00+08:00", -52, 71],
+            ["2020-06-24T07:00:00+08:00", 52, 67],
+            ["2020-06-25T07:00:00+08:00", -48, 66],
+            ["2020-06-26T07:00:00+08:00", 53, 66]
+        ])
 # Convert the weather data in to usable data, as min/max will need a list of lists (For every list inside weather_data, get (range) in list
 # Use the converted function to get the info and feed it in to the function
 
@@ -188,7 +201,16 @@ def generate_daily_summary(weather_data):
     Returns:
         A string containing the summary information.
     """
-    pass
-
-# Same as above, totes combining all the functions.  Will need to do this one last.
-# Goal is to basically obtain all results individually as var and return as a combined string.
+    loops_combined = ""
+    if not weather_data:
+        pass
+    for line in weather_data:
+        date_temp = convert_date(line[0])  #During each line loop return date in first column, index 0
+        min_temp = format_temperature(convert_f_to_c(line[1]))
+        max_temp = format_temperature(convert_f_to_c(line[2]))
+        loops_combined += (
+            f"---- {date_temp} ----\n"
+            f"  Minimum Temperature: {min_temp}\n"
+            f"  Maximum Temperature: {max_temp}\n"
+            "\n")
+    return loops_combined
