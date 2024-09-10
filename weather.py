@@ -78,16 +78,13 @@ def load_data_from_csv(csv_file):
         for line in csv_reader: #For loop scanning each line in list
             if line != []: #Skips line if blank
                 list_of_lists.append(line) #Appends each line created to the blank list created within the loop
-    # return list_of_lists
-    # print(list_of_lists)
-    list_of_lists.pop(0) #pop removes the the item in the list
-    # print(list_of_lists)
-    for line in list_of_lists:
-        line[1] = int(line[1])
+    list_of_lists.pop(0) #pop removes the first item in the list
+    for line in list_of_lists:  #Converts output to integers for use later
+        line[1] = int(line[1])  #Converts column 2 (1 being second from 0) to integer.  This is required for future function use
         line[2] = int(line[2])
     return list_of_lists
-# I can't believe it, but I got this without any outside assistance (excluding referring to my notes and google for some syntax of course).  GO ME!  WOOT!
-# print(load_data_from_csv("tests/data/example_two.csv"))
+# Complete initially without assistance, however an error occurred during later use when we combine all the functions together for use
+# I added a section to convert column 1 & 2 in to integers to be easier for calculations later.
 
 
 def find_min(weather_data):
@@ -175,23 +172,7 @@ def generate_summary(weather_data):
         f"  The average low this week is {mean_min}.\n"  
         f"  The average high this week is {mean_max}.\n"  
     )
-generate_summary([
-            ["2020-06-19T07:00:00+08:00", -47, -46],
-            ["2020-06-20T07:00:00+08:00", -51, 67],
-            ["2020-06-21T07:00:00+08:00", 58, 72],
-            ["2020-06-22T07:00:00+08:00", 59, 71],
-            ["2020-06-23T07:00:00+08:00", -52, 71],
-            ["2020-06-24T07:00:00+08:00", 52, 67],
-            ["2020-06-25T07:00:00+08:00", -48, 66],
-            ["2020-06-26T07:00:00+08:00", 53, 66]
-        ])
-# Convert the weather data in to usable data, as min/max will need a list of lists (For every list inside weather_data, get (range) in list
-# Use the converted function to get the info and feed it in to the function
-
-# Assign variable to function after feeding it the list
-## Don't forget to use the function to convert temp in to degrees symbol combo to get final vars
-# 
-
+# The trickiest part about passing the test (after the code, obv) was getting the right amount of spaces in the text to pass the test parameters.
 
 def generate_daily_summary(weather_data):
     """Outputs a daily summary for the given weather data.
@@ -202,15 +183,16 @@ def generate_daily_summary(weather_data):
         A string containing the summary information.
     """
     loops_combined = ""
-    if not weather_data:
+    if not weather_data:  #Skips if line is empty at the start of the loop
         pass
-    for line in weather_data:
-        date_temp = convert_date(line[0])  #During each line loop return date in first column, index 0
-        min_temp = format_temperature(convert_f_to_c(line[1]))
-        max_temp = format_temperature(convert_f_to_c(line[2]))
-        loops_combined += (
+    for line in weather_data:  #Iterates over each line in the data
+        date_temp = convert_date(line[0])  #During each line loop returns date in first column, index 0.  Covnerts ISO date to human readable format.
+        min_temp = format_temperature(convert_f_to_c(line[1]))  #During each line loop returns min temp in second column, index 1.  Also converts from f to c + and adds degree symbol.
+        max_temp = format_temperature(convert_f_to_c(line[2]))  #During each line loop returns max temp in first column, index 2.  Also converts from f to c + and adds degree symbol.
+        loops_combined += (  #Creates the following format for each iteration of data, returns it in a combined result line by line.
             f"---- {date_temp} ----\n"
             f"  Minimum Temperature: {min_temp}\n"
             f"  Maximum Temperature: {max_temp}\n"
             "\n")
     return loops_combined
+# No comment, after the general summary the daily summary felt simple by comparison.
